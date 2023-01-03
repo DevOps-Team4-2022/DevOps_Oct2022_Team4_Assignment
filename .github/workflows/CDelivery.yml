@@ -1,0 +1,68 @@
+name: CI PR
+
+on: [pull_request]
+    
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/setup-python@v2
+      with:
+        python-version: 3.11
+        
+    - name: Install Libraries
+      run: |
+        pip install flake8 pytest pytest-cov
+        
+    - name: Checkout Own Repo
+      uses: actions/checkout@v2
+      with:
+        repository: JayNg96/ReleasesFlow
+    - name: list out contents
+      run: |
+        ls
+        
+    - name: test with pytest
+      run: |
+        pytest test_*.py -v -cov --junitxml=report.xml
+  
+    - if: ${{ failure() }}
+      uses: JasonEtco/create-an-issue@v2
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        assignees: ${{ github.actor }}
+        update_existing: true
+        search_existing: all
+
+    - name: Publish Test Results
+      uses: EnricoMi/publish-unit-test-result-action/composite@v2
+      if: always()
+      with:
+        junit_files: "report.xml"
+    
+    - name: send report xml on push
+      uses: appleboy/telegram-action@master
+      with:
+        to: ${{ secrets.TELEGRAM_TO }}
+        token: ${{ secrets.TELEGRAM_TOKEN }}
+        message: |
+            ${{ github.actor }} has just submitted a pull request!
+            
+            Below are the test report:
+        document: report.xml
+
+  pr-labeler:
+    runs-on: ubuntu-latest
+    name: Label the PR size
+    steps:
+      - uses: coverwallet/pr-labeler@v1.2.1
+        with:
+          xs_max_size: '10'
+          s_max_size: '100'
+          m_max_size: '500'
+          l_max_size: '1000'
+          exclude_files: '.txt'
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
