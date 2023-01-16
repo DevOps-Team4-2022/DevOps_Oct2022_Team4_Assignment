@@ -1,0 +1,29 @@
+name: CDeliver
+on:
+  pull_request: 
+    types: [opened]
+    branches:
+      - 'uat'
+    
+jobs:     
+  build:
+    runs-on: ubuntu-latest
+    steps:    
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+        with:
+          repository: JayNg96/ReleasesFlow   
+          
+      - name: Install Libraries
+        run: |
+          pip install flake8 pytest pytest-cov pandas Flask Flask-MySQLdb Flask-SQLAlchemy mysql-connector-python-rf PyMySQL SQLAlchemy
+          
+      - name: test with pytest
+        run: |
+          python -m pytest tests/test_* -v -cov --junitxml=report.xml
+    
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action/composite@v2
+        if: always()
+        with:
+          junit_files: "report.xml"
