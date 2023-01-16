@@ -12,7 +12,7 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v3
         with:
-          repository: JayNg96/ReleasesFlow   
+          repository: DevOps-Team4-2022/DevOps_Oct2022_Team4_Assignment   
           
       - name: Install Libraries
         run: |
