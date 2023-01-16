@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+
+{% block head %}
+<title>Index Page</title>
+<nav class="navbar navbar-expand-lg navbar-light">
+    <a class="navbar-brand" href="#">Internship Manager</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="#">Upload <i class="fas fa-file-upload"></i></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Match <i class="fas fa-users"></i></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Prepare <i class="fas fa-envelope"></i></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Settings <i class="fas fa-cog"></i></a>
+            </li>
+        </ul>
+    </div>
+</nav>
+{% endblock %}
+
+
+{% block body %}
+<div class="container">
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <span>Upload Student Data</span>
+        <input type="file" name="internship_student_data" id="internship_student_data">
+        <span>Upload Company Data</span>
+        <input type="file" name="internship_company_data" id="internship_company_data">
+        <input type="submit" value="Upload">
+    </form>
+</div>
+{% endblock %}

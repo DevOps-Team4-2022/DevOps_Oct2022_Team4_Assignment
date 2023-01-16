@@ -1,0 +1,74 @@
+body {
+    background-color: yellow !important;
+}
+
+.navbar {
+    background-color: white;
+    padding: 0 20px;
+}
+
+/* Add a hover effect for the navigation items */
+.navbar a:hover {
+    color: #007bff;
+    text-decoration: none;
+}
+
+div.container {
+    height: calc(100% - 20px);
+    width: 40%
+}
+form {
+    /* Add some margin and padding to the form container */
+    margin: 50px auto;
+    padding: 20px;
+
+    /* Add some border and background color to the form container */
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+}
+
+/* file input fields */
+input[type="file"] {
+    /* Add some padding and margin to the input fields */
+    padding: 10px;
+    margin: 10px 0;
+
+    /* Add some border and background color to the input fields */
+    border: 1px solid #ccc;
+    background-color: #fff;
+}
+
+/* submit button */
+input[type="submit"] {
+    /* Add some padding and margin to the button */
+    padding: 10px 20px;
+    margin-top: 20px;
+
+    /* Add some background color and border to the button */
+    background-color: #fff;
+    border: 1px solid #ccc;
+
+    /* Add some hover effect to the button */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+input[type="submit"]:hover {
+    /* Change the background color on hover */
+    background-color: #0056b3;
+}
+
+/* file input elements */
+input[type="file"] {
+    /* Make the input elements take up the entire width of their container */
+    display: block;
+    width: 100%;
+
+    /* Add some margin to the input elements */
+    margin: 10px 0;
+
+    /* Add some border and background color to the input elements */
+    border: 1px solid #ccc;
+    background-color: #fff;
+}
+
