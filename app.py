@@ -36,60 +36,60 @@ class Company_Data(db.Model):
         return '<Company_Name: %r>' % self.Company_Name
 
 
+@app.route('/upload', methods=['POST'])
+def upload():
+    # Get the uploaded files
+    student_data = request.files.get('internship_student_data')
+    company_data = request.files.get('internship_company_data')
 
+    # check if either one of the files are uploaded
+    if student_data:
+        try:
+            if student_data.content_type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
+                student_df = pd.read_excel(student_data)
+                if set(student_df.columns) == set(['Student_ID', 'Name', 'Preference', 'Status']):
+                    for index, row in student_df.iterrows():
+                        student = Student_Data.query.filter_by(Student_ID=row['Student_ID']).first()
+                        if not student:
+                            student = Student_Data(Student_ID=row['Student_ID'], Name=row['Name'],
+                                                   Preference=row['Preference'], Status=row['Status'])
+                            db.session.add(student)
+                            db.session.commit()
+                        else:
+                            continue
+                    return redirect('/')
+                else:
+                    return 'The columns in the excel file does not match the columns in the table'
+            else:
+                return 'The file is not in excel format'
+        except IntegrityError:
+            print("record already exists")
+            db.session.rollback()
+            return redirect('/')
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    elif company_data:
+        try:
+            if company_data.content_type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
+                company_df = pd.read_excel(company_data)
+                if set(company_df.columns) == set(['Company_Name', 'Job_Role', 'Company_Contact', 'Email']):
+                    for index, row in company_df.iterrows():
+                        company = Company_Data.query.filter_by(Company_Name=row['Company_Name']).first()
+                        if not company:
+                            company = Company_Data(Company_Name=row['Company_Name'], Job_Role=row['Job_Role'],
+                                                   Company_Contact=row['Company_Contact'], Email=row['Email'])
+                            db.session.add(company)
+                            db.session.commit()
+                            return redirect('/')
+                    else:
+                        return 'The columns in the excel file does not match the columns in the table'
+                else:
+                    return 'The file is not in excel format'
+        except IntegrityError:
+            print("record already exists")
+            db.session.rollback()
+            return redirect('/')
+    else:
+        return 'Please upload either student or company data'
 
 
 @app.route('/')
