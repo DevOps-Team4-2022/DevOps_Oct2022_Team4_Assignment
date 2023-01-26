@@ -1,16 +1,38 @@
 body {
-    background-color: yellow !important;
+    font-family: Arial;
+    background-color: rgb(255, 204, 0) !important;
 }
 
-.navbar {
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 20px 50px 20px 0px;
+    overflow: hidden;
     background-color: white;
-    padding: 0 20px;
+    width: 100%;
+}
+
+li {
+    font-size: 22px;
+    padding-right: 10px;
 }
 
 /* Add a hover effect for the navigation items */
 .navbar a:hover {
     color: #007bff;
     text-decoration: none;
+}
+
+.navbar-brand{
+    color: #000;
+    padding-left: 20px;
+}
+
+hr {
+    height: 5px;
+    border-width: 0;
+    background-color: black;
+    width: 50%;
 }
 
 div.container {
