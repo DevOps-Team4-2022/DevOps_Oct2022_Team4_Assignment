@@ -29,6 +29,29 @@
 {% endblock %}
 
 
+
+
 {% block body %}
 
+<div class="container">
+    <a style="font-size: 30px; text-align: left; display: block; margin: auto;">Match Students</a>
+    <hr style="width: 100%">
+
+    <table class="center">
+        <tr>
+            <th><h4>Student name</h4></th>
+            <th><h4>Student Preference</h4></th>
+            <th><h4>Company List</h4></th>
+            <th><h4>Status</h4></th>
+        </tr>
+        {% for student in students %}
+            <tr>
+                <td><p>{{ student.Name }}</p></td>
+                <td><p>{{ student.Preference }}</p></td>
+                <td></td>
+                <td></td>
+            </tr>
+        {% endfor %}
+    </table>
+</div>
 {% endblock %}

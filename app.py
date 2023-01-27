@@ -94,8 +94,21 @@ def upload():
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return redirect("/upload_data", code=302)
+
+@app.route('/upload_data')
+def upload_data():
+    return render_template('upload_data.html')
+
+@app.route('/match_student')
+def match_student():
+    data = db.session.execute(db.select(Student_Data)).scalars()
+    print(data)
+    #tasks = Student.query
+    #students = Student.query.all()
+    return render_template('match_student.html', students=data)
+
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(port=5221, debug=True)

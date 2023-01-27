@@ -31,4 +31,17 @@
 
 {% block body %}
 
+
+<div class="container">
+    <a style="font-size: 30px; text-align: left; display: block; margin: auto;">Upload Data</a>
+    <hr style="width: 100%">
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <span>Upload Student Data</span>
+        <input type="file" name="internship_student_data" id="internship_student_data">
+        <span>Upload Company Data</span>
+        <input type="file" name="internship_company_data" id="internship_company_data">
+        <input type="submit" value="Upload">
+    </form>
+</div>
+
 {% endblock %}
