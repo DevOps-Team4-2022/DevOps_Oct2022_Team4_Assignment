@@ -35,6 +35,10 @@ hr {
     width: 50%;
 }
 
+table,td,th {
+    border: 2px solid;
+}
+
 hr {
     height: 2px;
     border-width: 0;
@@ -42,26 +46,32 @@ hr {
     width: 50%;
   }
 
-  table.center {
+table.center {
     margin-left: auto;
     margin-right: auto;
-  }
+}
 
-  th {
+th {
     padding-left: 70px;
     padding-right: 70px;
-  }
+}
 
-  td {
+h4 {
+    white-space: nowrap;
+}
+
+td {
     text-align: center;
-  }
+}
 
-  p {
-    font-size: 30px;
-  }
+p {
+    font-size: 20px;
+}
 
 div.container {
     height: calc(100% - 20px);
+    margin-top: 2%;
+    margin-bottom: 1%;
     width: 40%
 }
 form {
