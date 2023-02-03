@@ -6,7 +6,7 @@ import pandas as pd
 from datetime import datetime
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root2:password123@localhost/internship_data'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:@localhost/internship_data'
 db = SQLAlchemy(app)
 
 
@@ -17,7 +17,7 @@ class Student_Data(db.Model):
     Name = db.Column(db.String(255), nullable=False)
     Preference = db.Column(db.String(255), nullable=False)
     Status = db.Column(db.Enum('Unassigned', 'Pending confirmation', 'Confirmed', 'New Status'), nullable=False)
-    company_id = db.Column(db.Integer, db.ForeignKey('Company_Data.Company_ID'), nullable=True)
+    Company_ID = db.Column(db.Integer, db.ForeignKey('Company_Data.Company_ID'), nullable=True)
 
     def __repr__(self):
         return '<Student ID: %r>' % self.Student_ID
@@ -61,7 +61,7 @@ def upload():
                                 if not student:
                                     student = Student_Data(Student_ID=row['Student_ID'], Name=row['Name'],
                                                            Preference=row['Preference'], Status=row['Status'],
-                                                           company_id=row['Company_ID'])
+                                                           Company_ID=row['Company_ID'])
                                     db.session.add(student)
                                     db.session.commit()
                                 else:
@@ -71,7 +71,7 @@ def upload():
                             if not student:
                                 student = Student_Data(Student_ID=row['Student_ID'], Name=row['Name'],
                                                        Preference=row['Preference'], Status=row['Status'],
-                                                       company_id=None)
+                                                       Company_ID=None)
                                 db.session.add(student)
                                 db.session.commit()
                             else:
@@ -121,11 +121,16 @@ def upload_data():
 
 @app.route('/match_student')
 def match_student():
-    data = db.session.execute(db.select(Student_Data)).scalars()
-    print(data)
+    studentdata = db.session.execute(db.select(Student_Data)).scalars()
+    companydata = db.session.execute(db.select(Company_Data)).scalars()
+    company_options = []
+    for company in companydata:
+        company_options.append((company.Company_ID, company.Company_Name))
+
+    #print(data)
     #tasks = Student.query
     #students = Student.query.all()
-    return render_template('match_student.html', students=data)
+    return render_template('match_student.html', students=studentdata, company_options=company_options)
 
 
 if __name__ == "__main__":

@@ -40,19 +40,42 @@
 
 <table class="center">
     <tr style="background-color: #ffddcc">
-        <th><h4>Student Name</h4></th>
-        <th><h4>Student Preference</h4></th>
-        <th><h4>Company List</h4></th>
-        <th><h4>Status</h4></th>
+        <th>Student Name</th>
+        <th>Student Preference</th>
+        <th>Company List</th>
+        <th>Status</th>
     </tr>
+
     {% for student in students %}
         <tr>
-            <td><p>{{ student.Name }}</p></td>
-            <td><p>{{ student.Preference }}</p></td>
-            <td></td>
-            <td></td>
+            <td>{{ student.Name }}</td>
+            <td>{{ student.Preference }}</td>
+            <td>
+<select>
+  {% for company_id, company_name in company_options %}
+    {% if student.Company_ID == company_id %}
+      <option value="{{ company_id }}" selected>{{ company_name }}</option>
+    {% else %}
+      <option value="{{ company_id }}">{{ company_name }}</option>
+    {% endif %}
+  {% endfor %}
+  {% if student.Company_ID == None %}
+    <option value="" selected>Select a company</option>
+
+  {% endif %}
+</select>
+            </td>
+            <td>
+                <select>
+                    <option value="Unassigned" {% if student.Status == 'Unassigned' %}selected{% endif %}>Unassigned</option>
+                    <option value="Pending confirmation" {% if student.Status == 'Pending confirmation' %}selected{% endif %}>Pending confirmation</option>
+                    <option value="Confirmed" {% if student.Status == 'Confirmed' %}selected{% endif %}>Confirmed</option>
+                </select>
+
+            </td>
         </tr>
     {% endfor %}
 </table>
+
 
 {% endblock %}
