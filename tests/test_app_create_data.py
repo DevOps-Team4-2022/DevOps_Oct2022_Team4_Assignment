@@ -15,7 +15,7 @@ class TestCreateStudentData(unittest.TestCase):
     def test_columns(self):
         student_data = Student_Data.__table__
         columns = student_data.columns.keys()
-        self.assertEqual(columns, ['Student_ID', 'Name', 'Preference', 'Status'])
+        self.assertEqual(columns, ['Student_ID', 'Name', 'Preference', 'Status', 'company_id'])
 
     def test_primary_key(self):
         student_data = Student_Data.__table__
@@ -46,6 +46,24 @@ class TestCreateStudentData(unittest.TestCase):
     def test_status(self):
         self.assertEqual(self.student.Status, 'Pending confirmation')
 
+    # test if data already exists in database if not add it, can only be tested locally atm
+    # def test_add_student_data_if_not_exists(self):
+    #     with app.app_context():
+    #         result = Student_Data.query.filter_by(Student_ID='12345678').first()
+    #         if result is None:
+    #             student = Student_Data(Student_ID='12345678', Name='Sum Ting Wong', Preference='System Development',
+    #                                    Status='Pending confirmation')
+    #             db.session.add(student)
+    #             db.session.commit()
+    #             result = Student_Data.query.filter_by(Student_ID='12345678').first()
+    #             self.assertEqual(result.Name, 'Sum Ting Wong')
+    #             self.assertEqual(result.Preference, 'System Development')
+    #             self.assertEqual(result.Status, 'Pending confirmation')
+    #         else:
+    #             self.assertEqual(result.Name, 'Sum Ting Wong')
+    #             self.assertEqual(result.Preference, 'System Development')
+    #             self.assertEqual(result.Status, 'Pending confirmation')
+
 
 class TestCreateCompanyData(unittest.TestCase):
     def setUp(self):
@@ -55,18 +73,18 @@ class TestCreateCompanyData(unittest.TestCase):
     def test_columns(self):
         company_data = Company_Data.__table__
         columns = company_data.columns.keys()
-        self.assertEqual(columns, ['Company_Name', 'Job_Role', 'Company_Contact', 'Email'])
+        self.assertEqual(columns, ['Company_ID','Company_Name', 'Job_Role', 'Company_Contact', 'Email'])
 
     def test_primary_key(self):
         company_data = Company_Data.__table__
         pk = company_data.primary_key.columns.keys()
-        self.assertEqual(pk, ['Company_Name'])
+        self.assertEqual(pk, ['Company_ID'])
 
     def test_repr_method(self):
-        company = Company_Data(Company_Name='A inc.', Job_Role='Software Engineer', Company_Contact='John Smith', Email='john@abc.com')
-        self.assertEqual(str(company), "<Company_Name: 'A inc.'>")
+        company = Company_Data(Company_ID=1, Company_Name='A inc.', Job_Role='Software Engineer', Company_Contact='John Smith', Email='john@abc.com')
+        self.assertEqual(str(company), "<Company_ID: 1>")
         company.Email = 'john@abc.com'
-        self.assertEqual(str(company), "<Company_Name: 'A inc.'>")
+        self.assertEqual(str(company), "<Company_ID: 1>")
 
     def setUp(self):
         self.company = Company_Data(Company_Name='B inc.', Job_Role='Software Engineer', Company_Contact='Sum Ting Wong', Email='sum@abc.com')
