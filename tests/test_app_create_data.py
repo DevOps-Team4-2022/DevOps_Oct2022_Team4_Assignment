@@ -15,7 +15,7 @@ class TestCreateStudentData(unittest.TestCase):
     def test_columns(self):
         student_data = Student_Data.__table__
         columns = student_data.columns.keys()
-        self.assertEqual(columns, ['Student_ID', 'Name', 'Preference', 'Status', 'company_id'])
+        self.assertEqual(columns, ['Student_ID', 'Name', 'Preference', 'Status', 'Company_ID'])
 
     def test_primary_key(self):
         student_data = Student_Data.__table__
