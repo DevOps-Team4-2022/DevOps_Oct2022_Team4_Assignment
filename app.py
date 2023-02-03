@@ -119,6 +119,7 @@ def index():
 def upload_data():
     return render_template('upload_data.html')
 
+
 @app.route('/match_student', methods=['GET', 'POST'])
 def match_student():
     if request.method == 'POST':
@@ -143,7 +144,6 @@ def match_student():
     status_options = [('Unassigned'), ('Pending confirmation'), ('Confirmed')]
 
     return render_template('match_student.html', students=studentdata, company_options=company_options, status_options=status_options)
-
 
 
 if __name__ == "__main__":
