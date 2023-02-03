@@ -119,18 +119,27 @@ def index():
 def upload_data():
     return render_template('upload_data.html')
 
-@app.route('/match_student')
+@app.route('/match_student', methods=['GET', 'POST'])
 def match_student():
+    if request.method == 'POST':
+        student_id = request.form.get('student_id')
+        selected_company = request.form.get('selected_company')
+        #selected_status = request.form.get('selected_status')
+
+        student = Student_Data.query.filter_by(Student_ID=student_id).first()
+        student.Company_ID = selected_company
+        #student.Status = selected_status
+
+        db.session.commit()
+
     studentdata = db.session.execute(db.select(Student_Data)).scalars()
     companydata = db.session.execute(db.select(Company_Data)).scalars()
     company_options = []
     for company in companydata:
         company_options.append((company.Company_ID, company.Company_Name))
 
-    #print(data)
-    #tasks = Student.query
-    #students = Student.query.all()
     return render_template('match_student.html', students=studentdata, company_options=company_options)
+
 
 
 if __name__ == "__main__":
