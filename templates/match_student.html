@@ -29,8 +29,6 @@
 {% endblock %}
 
 
-
-
 {% block body %}
 
 <div class="container">
@@ -68,14 +66,23 @@
           </form>
         </td>
         <td>
-            <form action="{{ url_for('match_student') }}" method="POST" style="border: none; background-color: rgb(255, 204, 0); padding:0; margin:0;">
-                <select name="selected_status" onchange="this.form.submit()">
-                    <option value="Unassigned" {% if student.Company_ID == None and student.Status == 'Unassigned' %}selected{% endif %}>Unassigned</option>
-                    <option value="Pending confirmation" {% if student.Company_ID != None %}selected{% endif %}>Pending confirmation</option>
-                    <option value="Confirmed">Confirmed</option>
-                </select>
-                <input type="hidden" name="student_id" value="{{ student.Student_ID }}">
-            </form>
+          <form action="{{ url_for('match_student') }}" method="POST" style="border: none; background-color: rgb(255, 204, 0); padding:0; margin:0;">
+            <select name="selected_status" onchange="this.form.submit()">
+              {% for status in status_options %}
+                {% if student.Status == status %}
+                  <option value="{{ status }}" selected>{{ status }}</option>
+                {% else %}
+                  <option value="{{ status }}">{{ status }}</option>
+                {% endif %}
+              {% endfor %}
+            </select>
+            <input type="hidden" name="student_id" value="{{ student.Student_ID }}">
+            {% if student.Status == "Rejected" %}
+              <input type="hidden" name="selected_company" value="">
+            {% else %}
+              <input type="hidden" name="selected_company" value="{{ student.Company_ID }}">
+            {% endif %}
+          </form>
         </td>
     </tr>
 {% endfor %}

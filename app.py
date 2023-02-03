@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import CheckConstraint
 from sqlalchemy.exc import IntegrityError
@@ -16,7 +16,7 @@ class Student_Data(db.Model):
     Student_ID = db.Column(db.String(10), primary_key=True)
     Name = db.Column(db.String(255), nullable=False)
     Preference = db.Column(db.String(255), nullable=False)
-    Status = db.Column(db.Enum('Unassigned', 'Pending confirmation', 'Confirmed', 'New Status'), nullable=False)
+    Status = db.Column(db.Enum('Unassigned', 'Pending confirmation', 'Confirmed'), nullable=False)
     Company_ID = db.Column(db.Integer, db.ForeignKey('Company_Data.Company_ID'), nullable=True)
 
     def __repr__(self):
@@ -124,13 +124,15 @@ def match_student():
     if request.method == 'POST':
         student_id = request.form.get('student_id')
         selected_company = request.form.get('selected_company')
-        #selected_status = request.form.get('selected_status')
+        selected_status = request.form.get('selected_status')
 
-        student = Student_Data.query.filter_by(Student_ID=student_id).first()
-        student.Company_ID = selected_company
-        #student.Status = selected_status
-
-        db.session.commit()
+        if selected_company == "None":
+            return f"<script> alert('Please select a company first.'); window.location='{url_for('match_student')}'; </script>"
+        else:
+            student = Student_Data.query.filter_by(Student_ID=student_id).first()
+            student.Company_ID = selected_company
+            student.Status = selected_status
+            db.session.commit()
 
     studentdata = db.session.execute(db.select(Student_Data)).scalars()
     companydata = db.session.execute(db.select(Company_Data)).scalars()
@@ -138,7 +140,9 @@ def match_student():
     for company in companydata:
         company_options.append((company.Company_ID, company.Company_Name))
 
-    return render_template('match_student.html', students=studentdata, company_options=company_options)
+    status_options = [('Unassigned'), ('Pending confirmation'), ('Confirmed')]
+
+    return render_template('match_student.html', students=studentdata, company_options=company_options, status_options=status_options)
 
 
 
