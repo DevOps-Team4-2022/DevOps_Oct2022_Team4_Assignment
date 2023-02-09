@@ -4,7 +4,8 @@ currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentfram
 parentdir = os.path.dirname(currentdir)
 sys.path.append(parentdir)
 from app import *
-
+from io import BytesIO
+import shutil
 
 class TestCreateStudentData(unittest.TestCase):
 
@@ -15,7 +16,7 @@ class TestCreateStudentData(unittest.TestCase):
     def test_columns(self):
         student_data = Student_Data.__table__
         columns = student_data.columns.keys()
-        self.assertEqual(columns, ['Student_ID', 'Name', 'Preference', 'Status', 'company_id'])
+        self.assertEqual(columns, ['Student_ID', 'Name', 'Preference', 'Status', 'Company_ID'])
 
     def test_primary_key(self):
         student_data = Student_Data.__table__
@@ -45,25 +46,6 @@ class TestCreateStudentData(unittest.TestCase):
 
     def test_status(self):
         self.assertEqual(self.student.Status, 'Pending confirmation')
-
-    # test if data already exists in database if not add it, can only be tested locally atm
-    # def test_add_student_data_if_not_exists(self):
-    #     with app.app_context():
-    #         result = Student_Data.query.filter_by(Student_ID='12345678').first()
-    #         if result is None:
-    #             student = Student_Data(Student_ID='12345678', Name='Sum Ting Wong', Preference='System Development',
-    #                                    Status='Pending confirmation')
-    #             db.session.add(student)
-    #             db.session.commit()
-    #             result = Student_Data.query.filter_by(Student_ID='12345678').first()
-    #             self.assertEqual(result.Name, 'Sum Ting Wong')
-    #             self.assertEqual(result.Preference, 'System Development')
-    #             self.assertEqual(result.Status, 'Pending confirmation')
-    #         else:
-    #             self.assertEqual(result.Name, 'Sum Ting Wong')
-    #             self.assertEqual(result.Preference, 'System Development')
-    #             self.assertEqual(result.Status, 'Pending confirmation')
-
 
 class TestCreateCompanyData(unittest.TestCase):
     def setUp(self):
@@ -101,6 +83,41 @@ class TestCreateCompanyData(unittest.TestCase):
     def test_email(self):
         self.assertEqual(self.company.Email, 'sum@abc.com')
 
+
+class TestUploadFile(unittest.TestCase):
+    def setUp(self):
+        # Create a dummy file to simulate the uploaded file
+        self.dummy_file = BytesIO(b"dummy file content")
+        self.dummy_file.seek(0)
+        self.dummy_file.filename = "dummy_file.txt"
+
+        folder_path = 'test_folder/uploaded-data/dummy_data'
+        if os.path.exists(folder_path):
+            shutil.rmtree(folder_path)
+
+    def test_folder_created(self):
+        folder_path = 'test_folder/uploaded-data/dummy_data'
+        self.assertFalse(os.path.exists(folder_path))
+        if not os.path.exists(folder_path):
+            os.makedirs(folder_path)
+        self.assertTrue(os.path.exists(folder_path))
+
+    def test_file_stored(self):
+        folder_path = 'test_folder/uploaded-data/dummy_data'
+        file_path = os.path.join(folder_path, self.dummy_file.filename)
+        if not os.path.exists(folder_path):
+            os.makedirs(folder_path)
+        with open(file_path, 'wb') as f:
+            f.write(self.dummy_file.read())
+        self.assertTrue(os.path.exists(file_path))
+        with open(file_path, 'rb') as f:
+            stored_content = f.read()
+        self.assertEqual(stored_content, b"dummy file content")
+
+    def tearDown(self):
+        folder_path = 'test_folder'
+        if os.path.exists(folder_path):
+            shutil.rmtree(folder_path)
 
 if __name__ == '__main__':
     unittest.main()
