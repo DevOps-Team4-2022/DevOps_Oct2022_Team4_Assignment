@@ -4,6 +4,7 @@ from sqlalchemy import CheckConstraint
 from sqlalchemy.exc import IntegrityError
 import pandas as pd
 from datetime import datetime
+import os
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:@localhost/internship_data'
@@ -76,7 +77,16 @@ def upload():
                                 db.session.commit()
                             else:
                                 continue
-                    return redirect('/')
+                    # Create a folder to store the uploaded file
+                    folder_path = 'uploaded-data/student_data'
+                    if not os.path.exists(folder_path):
+                        os.makedirs(folder_path)
+
+                    # Store the uploaded file
+                    student_data.save(os.path.join(folder_path, student_data.filename))
+
+                    # Successful upload message
+                    return f"<script> alert('Successfully uploaded student data.'); window.location='{url_for('upload_data')}'; </script>"
                 else:
                     return f"<script> alert('The columns in the excel file does not match the columns in the table'); window.history.back(); </script>"
             else:
@@ -99,7 +109,17 @@ def upload():
                                                Email=row['Email'])
                         db.session.add(company)
                         db.session.commit()
-                    return redirect('/')
+
+                    # Create a folder to store the uploaded file
+                    folder_path = 'uploaded-data/company_data'
+                    if not os.path.exists(folder_path):
+                        os.makedirs(folder_path)
+
+                    # Store the uploaded file
+                    company_data.save(os.path.join(folder_path, company_data.filename))
+
+                    # Display successful upload message
+                    return f"<script> alert('Successfully uploaded company data.'); window.location='{url_for('upload_data')}'; </script>"
                 else:
                     return f"<script> alert('The columns in the excel file does not match the columns in the table'); window.history.back(); </script>"
             else:
