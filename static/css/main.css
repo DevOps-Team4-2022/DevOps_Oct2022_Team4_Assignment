@@ -35,10 +35,42 @@ hr {
     width: 50%;
 }
 
+table,td,th {
+    border: 2px solid;
+}
+
+hr {
+    height: 2px;
+    border-width: 0;
+    background-color: black;
+    width: 50%;
+  }
+
+table.center {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+th {
+    padding-left: 70px;
+    padding-right: 70px;
+}
+
+td {
+    text-align: center;
+}
+
+p {
+    font-size: 20px;
+}
+
 div.container {
     height: calc(100% - 20px);
+    margin-top: 2%;
+    margin-bottom: 1%;
     width: 40%
 }
+
 form {
     /* Add some margin and padding to the form container */
     margin: 50px auto;
@@ -93,4 +125,3 @@ input[type="file"] {
     border: 1px solid #ccc;
     background-color: #fff;
 }
-
