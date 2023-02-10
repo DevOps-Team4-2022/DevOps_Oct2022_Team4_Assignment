@@ -17,10 +17,10 @@ jobs:
     steps:
 
     - name: Download XAMPP
-    run: |
-      wget https://sourceforge.net/projects/xampp/files/XAMPP%20Linux/${XAMPP_VERSION}/xampp-linux-x64-${XAMPP_VERSION}-0-installer.run
-      chmod +x xampp-linux-x64-${XAMPP_VERSION}-0-installer.run
-      sudo ./xampp-linux-x64-${XAMPP_VERSION}-0-installer.run
+      run: |
+        wget https://sourceforge.net/projects/xampp/files/XAMPP%20Linux/${XAMPP_VERSION}/xampp-linux-x64-${XAMPP_VERSION}-0-installer.run
+        chmod +x xampp-linux-x64-${XAMPP_VERSION}-0-installer.run
+        sudo ./xampp-linux-x64-${XAMPP_VERSION}-0-installer.run
         
     - name: Start XAMPP
       run: |
@@ -110,10 +110,10 @@ jobs:
     steps:
 
     - name: Download XAMPP
-    run: |
-      wget https://sourceforge.net/projects/xampp/files/XAMPP%20Linux/${XAMPP_VERSION}/xampp-linux-x64-${XAMPP_VERSION}-0-installer.run
-      chmod +x xampp-linux-x64-${XAMPP_VERSION}-0-installer.run
-      sudo ./xampp-linux-x64-${XAMPP_VERSION}-0-installer.run
+      run: |
+        wget https://sourceforge.net/projects/xampp/files/XAMPP%20Linux/${XAMPP_VERSION}/xampp-linux-x64-${XAMPP_VERSION}-0-installer.run
+        chmod +x xampp-linux-x64-${XAMPP_VERSION}-0-installer.run
+        sudo ./xampp-linux-x64-${XAMPP_VERSION}-0-installer.run
         
     - name: Start XAMPP
       run: |
@@ -203,10 +203,10 @@ jobs:
     steps:
 
     - name: Download XAMPP
-    run: |
-      wget https://sourceforge.net/projects/xampp/files/XAMPP%20Linux/${XAMPP_VERSION}/xampp-linux-x64-${XAMPP_VERSION}-0-installer.run
-      chmod +x xampp-linux-x64-${XAMPP_VERSION}-0-installer.run
-      sudo ./xampp-linux-x64-${XAMPP_VERSION}-0-installer.run
+      run: |
+        wget https://sourceforge.net/projects/xampp/files/XAMPP%20Linux/${XAMPP_VERSION}/xampp-linux-x64-${XAMPP_VERSION}-0-installer.run
+        chmod +x xampp-linux-x64-${XAMPP_VERSION}-0-installer.run
+        sudo ./xampp-linux-x64-${XAMPP_VERSION}-0-installer.run
         
     - name: Start XAMPP
       run: |
