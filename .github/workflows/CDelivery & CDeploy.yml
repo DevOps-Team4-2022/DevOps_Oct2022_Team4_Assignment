@@ -3,26 +3,51 @@ on:
   push:
     branches:
       - 'prod'
+      
+env:
+  XAMPP_VERSION: 8.2.0
 
 jobs:
   build:
     runs-on: ubuntu-latest
     environment: PROD
     steps: 
-      - name: Checkout Repo
-        uses: actions/checkout@v3
+
+      - name: Download XAMPP
+        run: |
+          wget https://sourceforge.net/projects/xampp/files/XAMPP%20Linux/${XAMPP_VERSION}/xampp-linux-x64-${XAMPP_VERSION}-0-installer.run
+          chmod +x xampp-linux-x64-${XAMPP_VERSION}-0-installer.run
+          sudo ./xampp-linux-x64-${XAMPP_VERSION}-0-installer.run
+          
+      - name: Start XAMPP
+        run: |
+          sudo /opt/lampp/lampp start
+          sudo /opt/lampp/lampp startapache
+          sudo /opt/lampp/lampp startmysql
+
+      - uses: actions/setup-python@v2
         with:
-          repository: DevOps-Team4-2022/DevOps_Oct2022_Team4_Assignment     
+          python-version: 3.11
           
       - name: Install Libraries
         run: |
-          pip install flake8 pytest pytest-cov pandas Flask Flask-MySQLdb Flask-SQLAlchemy mysql-connector-python-rf PyMySQL SQLAlchemy   
-
-      - name: list out contents
-        run: |
-          ls
+          pip install flake8 pytest pytest-cov pandas Flask Flask-MySQLdb Flask-SQLAlchemy PyMySQL SQLAlchemy mysql-connector-python
           
-      - name: test with pytest
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+        with:
+          repository: DevOps-Team4-2022/DevOps_Oct2022_Team4_Assignment 
+
+      - name: Create a database for testing
+        run: |
+          python create_db.py
+          flask shell <<EOF
+          from app import db
+          db.create_all()
+          exit()
+          EOF    
+          
+      - name: Run all tests
         run: |
           python -m pytest tests/test_* -v -cov
     
