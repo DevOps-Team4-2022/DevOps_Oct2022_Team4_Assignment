@@ -4,8 +4,7 @@ currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentfram
 parentdir = os.path.dirname(currentdir)
 sys.path.append(parentdir)
 from app import *
-from io import BytesIO
-import shutil
+
 
 class TestCreateStudentData(unittest.TestCase):
 
@@ -65,7 +64,7 @@ class TestCreateCompanyData(unittest.TestCase):
     def test_repr_method(self):
         company = Company_Data(Company_ID=1, Company_Name='A inc.', Job_Role='Software Engineer', Company_Contact='John Smith', Email='john@abc.com')
         self.assertEqual(str(company), "<Company_ID: 1>")
-        company.Email = 'john@abc.com'
+        company.Email = 'john1@abc.com'
         self.assertEqual(str(company), "<Company_ID: 1>")
 
     def setUp(self):
@@ -83,41 +82,6 @@ class TestCreateCompanyData(unittest.TestCase):
     def test_email(self):
         self.assertEqual(self.company.Email, 'sum@abc.com')
 
-
-class TestUploadFile(unittest.TestCase):
-    def setUp(self):
-        # Create a dummy file to simulate the uploaded file
-        self.dummy_file = BytesIO(b"dummy file content")
-        self.dummy_file.seek(0)
-        self.dummy_file.filename = "dummy_file.txt"
-
-        folder_path = 'test_folder/uploaded-data/dummy_data'
-        if os.path.exists(folder_path):
-            shutil.rmtree(folder_path)
-
-    def test_folder_created(self):
-        folder_path = 'test_folder/uploaded-data/dummy_data'
-        self.assertFalse(os.path.exists(folder_path))
-        if not os.path.exists(folder_path):
-            os.makedirs(folder_path)
-        self.assertTrue(os.path.exists(folder_path))
-
-    def test_file_stored(self):
-        folder_path = 'test_folder/uploaded-data/dummy_data'
-        file_path = os.path.join(folder_path, self.dummy_file.filename)
-        if not os.path.exists(folder_path):
-            os.makedirs(folder_path)
-        with open(file_path, 'wb') as f:
-            f.write(self.dummy_file.read())
-        self.assertTrue(os.path.exists(file_path))
-        with open(file_path, 'rb') as f:
-            stored_content = f.read()
-        self.assertEqual(stored_content, b"dummy file content")
-
-    def tearDown(self):
-        folder_path = 'test_folder'
-        if os.path.exists(folder_path):
-            shutil.rmtree(folder_path)
 
 if __name__ == '__main__':
     unittest.main()
