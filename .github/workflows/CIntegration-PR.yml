@@ -47,9 +47,9 @@ jobs:
         exit()
         EOF    
 
-    - name: Run all tests
+    - name: Perform Unit Testings
       run: |
-        pytest tests/test_*.py -v -cov --junitxml=report.xml
+        pytest tests/unit-tests/test_*.py -v -cov --junitxml=report.xml
 
     - name: Publish Test Results
       uses: EnricoMi/publish-unit-test-result-action/composite@v2
@@ -75,4 +75,4 @@ jobs:
         token: ${{ secrets.TELEGRAM_TOKEN }}
         message: |
           ${{ github.actor }} has just submitted a pull request.
-          PR Message: ${{ github.event.commits[0].message }}
+          PR Message: ${{ github.event.pull_request.title }}

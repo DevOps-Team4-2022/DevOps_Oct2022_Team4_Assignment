@@ -7,6 +7,7 @@ from datetime import datetime
 import datetime
 import os
 
+
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:@localhost/internship_data'
 db = SQLAlchemy(app)
@@ -138,9 +139,11 @@ def upload():
     else:
         return f"<script> alert('Please upload either student or company data'); window.history.back(); </script>"
 
+
 @app.route('/')
 def index():
     return redirect("/upload_data", code=302)
+
 
 @app.route('/upload_data')
 def upload_data():
