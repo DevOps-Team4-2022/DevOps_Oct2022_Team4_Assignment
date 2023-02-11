@@ -75,4 +75,4 @@ jobs:
         token: ${{ secrets.TELEGRAM_TOKEN }}
         message: |
           ${{ github.actor }} has just submitted a pull request.
-          PR Message: ${{ github.event.commits[0].message }}
+          PR Message: ${{ github.event.pull_request.title }}
