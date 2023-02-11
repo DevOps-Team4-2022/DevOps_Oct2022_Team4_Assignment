@@ -1,0 +1,78 @@
+name: CIntegration-PR
+on:
+  pull_request:
+    types: [opened]
+    branches:
+      - '*'
+
+env:
+  XAMPP_VERSION: 8.2.0
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:  
+
+    - name: Download XAMPP
+      run: |
+        wget https://sourceforge.net/projects/xampp/files/XAMPP%20Linux/${XAMPP_VERSION}/xampp-linux-x64-${XAMPP_VERSION}-0-installer.run
+        chmod +x xampp-linux-x64-${XAMPP_VERSION}-0-installer.run
+        sudo ./xampp-linux-x64-${XAMPP_VERSION}-0-installer.run
+        
+    - name: Start XAMPP
+      run: |
+        sudo /opt/lampp/lampp start
+        sudo /opt/lampp/lampp startapache
+        sudo /opt/lampp/lampp startmysql
+
+    - uses: actions/setup-python@v2
+      with:
+        python-version: 3.11
+        
+    - name: Install Libraries
+      run: |
+        pip install flake8 pytest pytest-cov pandas Flask Flask-MySQLdb Flask-SQLAlchemy PyMySQL SQLAlchemy mysql-connector-python
+        
+    - name: Checkout Repo
+      uses: actions/checkout@v3
+      with:
+        repository: DevOps-Team4-2022/DevOps_Oct2022_Team4_Assignment
+
+    - name: Create a database for testing
+      run: |
+        python create_db.py
+        flask shell <<EOF
+        from app import db
+        db.create_all()
+        exit()
+        EOF    
+
+    - name: Perform Unit Testings
+      run: |
+        pytest tests/unit-tests/test_*.py -v -cov --junitxml=report.xml
+
+    - name: Publish Test Results
+      uses: EnricoMi/publish-unit-test-result-action/composite@v2
+      if: always()
+      with:
+        junit_files: "report.xml"
+    
+    - name: Label PR size
+      uses: coverwallet/pr-labeler@v1.2.1
+      with:
+        xs_max_size: '10'
+        s_max_size: '100'
+        m_max_size: '500'
+        l_max_size: '1000'
+        exclude_files: '.txt'
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    
+    - name: Notify Team of PR
+      uses: appleboy/telegram-action@master
+      with:
+        to: ${{ secrets.TELEGRAM_TO }}
+        token: ${{ secrets.TELEGRAM_TOKEN }}
+        message: |
+          ${{ github.actor }} has just submitted a pull request.
+          PR Message: ${{ github.event.pull_request.title }}

@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+
+{% block head %}
+<title>Index Page</title>
+<nav class="navbar navbar-expand-lg navbar-light">
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav justify-content-end">
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('index') }}">Upload Data <i class="fas fa-file-upload"></i></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('match_student') }}">Match Students <i class="fas fa-users"></i></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Prepare Emails <i class="fas fa-envelope"></i></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Settings <i class="fas fa-cog"></i></a>
+            </li>
+        </ul>
+    </div>
+    <!-- <a class="navbar-brand" href="#">Internship Manager</a> -->
+</nav>
+{% endblock %}
+
+
+{% block body %}
+
+{% endblock %}
