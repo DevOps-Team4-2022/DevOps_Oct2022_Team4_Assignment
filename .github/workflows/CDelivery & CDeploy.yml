@@ -47,9 +47,9 @@ jobs:
           exit()
           EOF    
           
-      - name: Run all tests
+      - name: Perform Unit Testings
         run: |
-          python -m pytest tests/test_* -v -cov
+          python -m pytest tests/unit-tests/test_* -v -cov
     
         
   deploy:

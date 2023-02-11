@@ -2,7 +2,8 @@ import unittest
 import sys, os, inspect
 currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parentdir = os.path.dirname(currentdir)
-sys.path.append(parentdir)
+parentdir = os.path.dirname(parentdir)
+sys.path.insert(0, parentdir)
 from app import *
 from io import BytesIO
 import shutil

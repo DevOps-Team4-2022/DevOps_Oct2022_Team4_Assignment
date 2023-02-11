@@ -57,10 +57,10 @@ jobs:
         exit()
         EOF      
 
-    - name: Run all tests
+    - name: Perform Unit Testings
       run: |
-        pytest tests/test_*.py -v -cov --junitxml=dev_report.xml
-        pytest --cov=tests/ --cov-report=xml:dev_coverage.xml
+        pytest tests/unit-tests/test_*.py -v -cov --junitxml=dev_report.xml
+        pytest --cov=tests/unit-tests/test_*.py --cov-report=xml:dev_coverage.xml
         
     # monitoring tool - analyze test and coverage
     - name: Analyze Test
@@ -150,10 +150,10 @@ jobs:
         exit()
         EOF     
 
-    - name: Run all tests
+    - name: Perform Unit Testings
       run: |
-        pytest tests/test_*.py -v -cov --junitxml=uat_report.xml
-        pytest --cov=tests/ --cov-report=xml:uat_coverage.xml
+        pytest tests/unit-tests/test_*.py -v -cov --junitxml=uat_report.xml
+        pytest --cov=tests/unit-tests/test_*.py --cov-report=xml:uat_coverage.xml
         
     # monitoring tool - analyze test and coverage
     - name: Analyze Test
@@ -243,10 +243,10 @@ jobs:
         exit()
         EOF     
 
-    - name: Run all tests
+    - name: Perform Unit Testings
       run: |
-        pytest tests/test_*.py -v -cov --junitxml=prod_report.xml
-        pytest --cov=tests/ --cov-report=xml:prod_coverage.xml
+        pytest tests/unit-tests/test_*.py -v -cov --junitxml=prod_report.xml
+        pytest --cov=tests/unit-tests/test_*.py --cov-report=xml:prod_coverage.xml
         
     # monitoring tool - analyze test and coverage
     - name: Analyze Test
