@@ -4,7 +4,7 @@ import time
 
 ### test functions in Match Students page
 ## PASSING TESTS
-def test_matchStudentsPageTitle_companyListColumnDropDown():
+def test_matchStudentsPageTitle():
     chrome_driver = webdriver.Chrome()
     chrome_driver.get('http://127.0.0.1:5221/upload_data')
     element = chrome_driver.find_element(By.XPATH, "/html/body/nav/div/ul/li[2]/a")
@@ -15,7 +15,7 @@ def test_matchStudentsPageTitle_companyListColumnDropDown():
         raise Exception("Incorrect page name")
 
 # test Company List column's drop down list
-def test_matchStudentsPageTitle_companyListColumnDropDown():
+def test_companyListColumnDropDown():
     chrome_driver = webdriver.Chrome()
     chrome_driver.get('http://127.0.0.1:5221/upload_data')
     element = chrome_driver.find_element(By.XPATH, "/html/body/nav/div/ul/li[2]/a")
