@@ -14,7 +14,13 @@ def test_matchStudentsPageTitle_companyListColumnDropDown():
     if not "Match Student" in chrome_driver.title:
         raise Exception("Incorrect page name")
 
-    # test Company List column's drop down list
+# test Company List column's drop down list
+def test_matchStudentsPageTitle_companyListColumnDropDown():
+    chrome_driver = webdriver.Chrome()
+    chrome_driver.get('http://127.0.0.1:5221/upload_data')
+    element = chrome_driver.find_element(By.XPATH, "/html/body/nav/div/ul/li[2]/a")
+    element.click()
+
     element = chrome_driver.find_element(By.XPATH, "/html/body/table/tbody/tr[2]/td[3]/form/select")
     element.click()
 
@@ -40,3 +46,4 @@ def test_noStudentData():
     element = chrome_driver.find_element(By.XPATH, "/html/body/table/tbody/tr[2]")
     if element is None:
         raise Exception("No student data in database")
+    

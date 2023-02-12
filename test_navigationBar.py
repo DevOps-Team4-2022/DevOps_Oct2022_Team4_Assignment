@@ -14,7 +14,6 @@ def test_uploadDataToMatchStudentPage():
     # check succesfully got to Match Students page
     if not "Match Student" in chrome_driver.title:
         raise Exception("Incorrect page name")
-    time.sleep(2)
 
 # # Upload Data page to Match Students page to Prepare Emails page
 # def test_matchStuedntsToPrepareEmailsPage():
@@ -29,7 +28,6 @@ def test_uploadDataToMatchStudentPage():
 #     # check succesfully got to Prepare Emails page
 #     if not "Prepare Emails" in chrome_driver.title:
 #         raise Exception("Incorrect page name")
-#     time.sleep(2)
 
 # # Upload Data page to Prepare Emails page to Settings page
 # def test_prepareEmailsToSettingsPage():
@@ -44,5 +42,4 @@ def test_uploadDataToMatchStudentPage():
 #     # check succesfully got to Settings page
 #     if not "Settings" in chrome_driver.title:
 #         raise Exception("Incorrect page name")
-#     time.sleep(2)
 
