@@ -2,8 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 import time
 
-### test navigation bar
-## PASSING TESTS
+## test navigation bar\
 # Upload Data page to Match Students page
 def test_uploadDataToMatchStudentPage():
     chrome_driver = webdriver.Chrome()
