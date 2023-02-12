@@ -1,0 +1,127 @@
+body {
+    font-family: Arial;
+    background-color: rgb(255, 204, 0) !important;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 20px 50px 20px 0px;
+    overflow: hidden;
+    background-color: white;
+    width: 100%;
+}
+
+li {
+    font-size: 22px;
+    padding-right: 10px;
+}
+
+/* Add a hover effect for the navigation items */
+.navbar a:hover {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.navbar-brand{
+    color: #000;
+    padding-left: 20px;
+}
+
+hr {
+    height: 5px;
+    border-width: 0;
+    background-color: black;
+    width: 50%;
+}
+
+table,td,th {
+    border: 2px solid;
+}
+
+hr {
+    height: 2px;
+    border-width: 0;
+    background-color: black;
+    width: 50%;
+  }
+
+table.center {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+th {
+    padding-left: 70px;
+    padding-right: 70px;
+}
+
+td {
+    text-align: center;
+}
+
+p {
+    font-size: 20px;
+}
+
+div.container {
+    height: calc(100% - 20px);
+    margin-top: 2%;
+    margin-bottom: 1%;
+    width: 40%
+}
+
+form {
+    /* Add some margin and padding to the form container */
+    margin: 50px auto;
+    padding: 20px;
+
+    /* Add some border and background color to the form container */
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+}
+
+/* file input fields */
+input[type="file"] {
+    /* Add some padding and margin to the input fields */
+    padding: 10px;
+    margin: 10px 0;
+
+    /* Add some border and background color to the input fields */
+    border: 1px solid #ccc;
+    background-color: #fff;
+}
+
+/* submit button */
+input[type="submit"] {
+    /* Add some padding and margin to the button */
+    padding: 10px 20px;
+    margin-top: 20px;
+
+    /* Add some background color and border to the button */
+    background-color: #fff;
+    border: 1px solid #ccc;
+
+    /* Add some hover effect to the button */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+input[type="submit"]:hover {
+    /* Change the background color on hover */
+    background-color: #0056b3;
+}
+
+/* file input elements */
+input[type="file"] {
+    /* Make the input elements take up the entire width of their container */
+    display: block;
+    width: 100%;
+
+    /* Add some margin to the input elements */
+    margin: 10px 0;
+
+    /* Add some border and background color to the input elements */
+    border: 1px solid #ccc;
+    background-color: #fff;
+}
