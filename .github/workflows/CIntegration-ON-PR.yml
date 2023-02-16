@@ -69,7 +69,7 @@ jobs:
       run: |
         python app.py &
         pytest tests/unit-tests/test_*.py -v -cov --junitxml=report.xml
-        pytest tests/integration-tests/test_*.py -v -cov --junitxml=report.xml
+        pytest tests/integration-tests/*.py -v -cov --junitxml=report.xml
         pytest --cov=tests --cov-report=xml:coverage.xml
 
     # monitoring tool - analyze test and coverage

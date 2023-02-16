@@ -72,7 +72,7 @@ jobs:
       run: |
         python app.py &
         pytest tests/unit-tests/test_*.py -v -cov --junitxml=dev_report.xml
-        pytest tests/integration-tests/test_*.py -v -cov --junitxml=dev_report.xml
+        pytest tests/integration-tests/*.py -v -cov --junitxml=dev_report.xml
         pytest --cov=tests --cov-report=xml:dev_coverage.xml
         
     # monitoring tool - analyze test and coverage
@@ -178,7 +178,7 @@ jobs:
       run: |
         python app.py &
         pytest tests/unit-tests/test_*.py -v -cov --junitxml=uat_report.xml
-        pytest tests/integration-tests/test_*.py -v -cov --junitxml=uat_report.xml
+        pytest tests/integration-tests/*.py -v -cov --junitxml=uat_report.xml
         pytest --cov=tests --cov-report=xml:uat_coverage.xml
         
     # monitoring tool - analyze test and coverage
@@ -284,7 +284,7 @@ jobs:
       run: |
         python app.py &
         pytest tests/unit-tests/test_*.py -v -cov --junitxml=prod_report.xml
-        pytest tests/integration-tests/test_*.py -v -cov --junitxml=prod_report.xml
+        pytest tests/integration-tests/*.py -v -cov --junitxml=prod_report.xml
         pytest --cov=tests --cov-report=xml:prod_coverage.xml
         
     # monitoring tool - analyze test and coverage
