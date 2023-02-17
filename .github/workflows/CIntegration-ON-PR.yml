@@ -13,10 +13,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:  
 
+    - name: Cache XAMPP installer
+      uses: actions/cache@v2
+      with:
+        path: xampp-linux-x64-${XAMPP_VERSION}-0-installer.run
+        key: xampp-${XAMPP_VERSION}
+        restore-keys: xampp-
+
     - name: Download XAMPP
+      if: steps.cache-xampp.outcome != 'success'
       run: |
         wget https://sourceforge.net/projects/xampp/files/XAMPP%20Linux/${XAMPP_VERSION}/xampp-linux-x64-${XAMPP_VERSION}-0-installer.run
         chmod +x xampp-linux-x64-${XAMPP_VERSION}-0-installer.run
+
+    - name: Install XAMPP
+      run: |
         sudo ./xampp-linux-x64-${XAMPP_VERSION}-0-installer.run
         
     - name: Start XAMPP
@@ -25,13 +36,20 @@ jobs:
         sudo /opt/lampp/lampp startapache
         sudo /opt/lampp/lampp startmysql
 
+    # monitor tool
+    - name: Collect Workflow Telemetry
+      uses: runforesight/foresight-workflow-kit-action@v1
+      if: ${{ always() }}
+      with:
+        api_key: ${{ secrets.FORESIGHT_API_KEY }}
+
     - uses: actions/setup-python@v2
       with:
         python-version: 3.11
         
     - name: Install Libraries
       run: |
-        pip install flake8 pytest pytest-cov pandas Flask Flask-MySQLdb Flask-SQLAlchemy PyMySQL SQLAlchemy mysql-connector-python
+        pip install flake8 pytest pytest-cov pandas Flask Flask-MySQLdb Flask-SQLAlchemy PyMySQL SQLAlchemy mysql-connector-python selenium webdriver-manager openpyxl reportlab
         
     - name: Checkout Repo
       uses: actions/checkout@v3
@@ -47,9 +65,24 @@ jobs:
         exit()
         EOF    
 
-    - name: Perform Unit Testings
+    - name: Perform Unit and Integration Testings
       run: |
+        python app.py &
         pytest tests/unit-tests/test_*.py -v -cov --junitxml=report.xml
+        pytest tests/integration-tests/*.py -v -cov --junitxml=report.xml
+        pytest --cov=tests --cov-report=xml:coverage.xml
+
+    # monitoring tool - analyze test and coverage
+    - name: Analyze Test
+      uses: runforesight/foresight-test-kit-action@v1
+      if: ${{ always() }}
+      with:
+        api_key: ${{ secrets.FORESIGHT_API_KEY }}
+        test_format: JUNIT
+        test_framework: PYTEST
+        test_path: report.xml
+        coverage_format: JACOCO/XML
+        coverage_path: coverage.xml
 
     - name: Publish Test Results
       uses: EnricoMi/publish-unit-test-result-action/composite@v2
