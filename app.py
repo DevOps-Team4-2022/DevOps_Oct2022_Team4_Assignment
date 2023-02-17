@@ -6,6 +6,8 @@ import pandas as pd
 from datetime import datetime
 import datetime
 import os
+from reportlab.pdfgen import canvas 
+from reportlab.lib.pagesizes import letter
 
 
 app = Flask(__name__)
@@ -175,6 +177,31 @@ def match_student():
 
     return render_template('match_student.html', students=studentdata, company_options=company_options, status_options=status_options)
 
+@app.route('/prepare_email', methods=['GET', 'POST'])
+def prepare_email():
+    if request.method == 'POST':        
+        if not os.path.exists('email'):
+            os.makedirs('email')        
+            student_id = request.form['student_id']
+            student_name = request.form['student_name']        
+            filename = f'{student_id}_{student_name}_Resume.msg' # .msg file
+            current_year = datetime.datetime.now().year
+            file_path = os.path.join('email', filename)        
+            c = canvas.Canvas(file_path, pagesize=letter)
+            c.drawString(100, 700, "Title : Internship Response to Internship Request")        
+            c.drawString(100, 650, f"Dear {student_name}")
+            c.drawString(100, 625, f"Kindly find attached our students resume for the {current_year} semester Internship ")        
+            c.drawString(100, 600, "in response to your job description which you have submitted to us.")
+            c.drawString(100, 575, "We look forward to your favorable response and to working with your")        
+            c.drawString(100, 550, "company for the upcoming internship period <Internship Period>.")
+            c.save()
+        return f"<script> alert('Successfully Generated an Email'); window.history.back(); </script>"
+    studentdata = db.session.execute(db.select(Student_Data)).scalars()
+    companydata = db.session.execute(db.select(Company_Data)).scalars()    
+    company_options = []
+    for company in companydata:        
+        company_options.append((company.Company_ID, company.Company_Name))
+    return render_template('prepare_email.html', students=studentdata, company_options=company_options)
 
 if __name__ == "__main__":
     app.run(port=5221, debug=True)

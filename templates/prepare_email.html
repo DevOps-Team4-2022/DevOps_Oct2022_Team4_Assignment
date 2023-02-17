@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+
+{% block head %}
+<title>Prepare Email</title>
+<nav class="navbar navbar-expand-lg navbar-light">
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav justify-content-end">
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('index') }}">Upload Data <i class="fas fa-file-upload"></i></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('match_student') }}">Match Students <i class="fas fa-users"></i></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('prepare_email') }}">Prepare Emails <i class="fas fa-envelope"></i></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Settings <i class="fas fa-cog"></i></a>
+            </li>
+        </ul>
+    </div>
+    <!-- <a class="navbar-brand" href="#">Internship Manager</a> -->
+</nav>
+{% endblock %}
+
+
+{% block body %}
+
+<div class="container">
+    <a style="font-size: 30px; text-align: left; display: block; margin: auto;">Match Students</a>
+    <hr style="width: 100%">
+
+</div>
+
+<table class="center">
+    <tr style="background-color: #ffddcc">
+        <th>Student Name</th>
+        <th>Student Preference</th>
+        <th>Company List</th>
+        <th>Generate Email</th>
+    </tr>
+
+{% for student in students %}
+    {% if student.Company_ID is not none %}
+    {% if student.Status == "Pending confirmation" %}
+    <tr style="border-color: #ffddcc">
+        <td>{{ student.Name }}</td>
+        <td>{{ student.Preference }}</td>
+        <td>
+            {% for company_id, company_name in company_options %}
+                {% if student.Company_ID == company_id %}
+                    {{ company_name }}
+                {% endif %}
+            {% endfor %}
+        </td>
+        <td>
+            <form action="/prepare_email" method="post" enctype="multipart/form-data" style="border: none; background-color: rgb(255, 204, 0); padding:0; margin:0;">
+                <input type="hidden" name="student_id" value="{{ student.Student_ID }}">
+                <input type="hidden" name="student_name" value="{{ student.Name }}">
+                <button type="submit">Generate Email</button>
+            </form>
+        </td>
+    </tr>
+    {% endif %}
+    {% endif %}
+{% endfor %}
+
+</table>
+
+
+{% endblock %}
