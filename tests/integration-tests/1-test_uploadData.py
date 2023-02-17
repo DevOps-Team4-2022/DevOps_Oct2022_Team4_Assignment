@@ -19,6 +19,33 @@ companydata_filename = "excel_files_to_upload/company_data.xlsx"
 studentdata_file_path = os.path.join(parentdir, studentdata_filename)
 companydata_file_path = os.path.join(parentdir, companydata_filename)
 
+### test functions in Upload Data page
+## FAILING TEST
+# click Upload button without choosing any file in Upload Data page
+def test_uploadButton():
+    chrome_options = Options()
+    chrome_options.add_argument("--headless")
+    chrome_options.add_argument('--no-sandbox')
+    chrome_options.add_argument("--window-size=1920x1080")
+    chrome_driver = webdriver.Chrome(service=ChromeService(executable_path=ChromeDriverManager().install()), options=chrome_options)
+    chrome_driver.get('http://127.0.0.1:5221/upload_data')
+
+    chrome_driver.find_element(By.XPATH, "/html/body/div[1]/form/input[3]").click()
+
+
+## PASSING TESTS
+# check page title is correct
+def test_uploadDataPageTitle():
+    chrome_options = Options()
+    chrome_options.add_argument("--headless")
+    chrome_options.add_argument('--no-sandbox')
+    chrome_options.add_argument("--window-size=1920x1080")
+    chrome_driver = webdriver.Chrome(service=ChromeService(executable_path=ChromeDriverManager().install()), options=chrome_options)
+    chrome_driver.get('http://127.0.0.1:5221/upload_data')
+
+    if not "Upload Data" in chrome_driver.title:
+        raise Exception("Incorrect page name")
+
 # in upload data page, upload a student csv file
 def test_upload_student_data():
     chrome_options = Options()
@@ -33,7 +60,7 @@ def test_upload_student_data():
 
     chrome_driver.find_element(By.XPATH, "/html/body/div/form/input[3]").click()
 
-
+# in upload data page, upload a company csv file
 def test_upload_company_data():
     chrome_options = Options()
     chrome_options.add_argument("--headless")
