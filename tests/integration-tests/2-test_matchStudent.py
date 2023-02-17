@@ -14,12 +14,9 @@ def test_matchStudentsPageTitle():
     chrome_options.add_argument('--no-sandbox')
     chrome_options.add_argument("--window-size=1920x1080")
     chrome_driver = webdriver.Chrome(service=ChromeService(executable_path=ChromeDriverManager().install()), options=chrome_options)
-    chrome_driver.get('http://127.0.0.1:5221/upload_data')
+    chrome_driver.get('http://127.0.0.1:5221/match_student')
 
     time.sleep(3)
-    element = chrome_driver.find_element(By.XPATH, "/html/body/nav/div/ul/li[2]/a")
-    element.click()
-
     if not "Match Student" in chrome_driver.title:
         raise Exception("Incorrect page name")
 
@@ -30,11 +27,7 @@ def test_companyListColumnDropDown():
     chrome_options.add_argument('--no-sandbox')
     chrome_options.add_argument("--window-size=1920x1080")
     chrome_driver = webdriver.Chrome(service=ChromeService(executable_path=ChromeDriverManager().install()), options=chrome_options)
-    chrome_driver.get('http://127.0.0.1:5221/upload_data')
-
-    time.sleep(3)
-    element = chrome_driver.find_element(By.XPATH, "/html/body/nav/div/ul/li[2]/a")
-    element.click()
+    chrome_driver.get('http://127.0.0.1:5221/match_student')
 
     time.sleep(2)
     element = chrome_driver.find_element(By.XPATH, "/html/body/table/tbody/tr[2]/td[3]/form/select")
@@ -47,11 +40,7 @@ def test_statusColumnDropDown():
     chrome_options.add_argument('--no-sandbox')
     chrome_options.add_argument("--window-size=1920x1080")
     chrome_driver = webdriver.Chrome(service=ChromeService(executable_path=ChromeDriverManager().install()), options=chrome_options)
-    chrome_driver.get('http://127.0.0.1:5221/upload_data')
-
-    time.sleep(3)
-    element = chrome_driver.find_element(By.XPATH, "/html/body/nav/div/ul/li[2]/a")
-    element.click()
+    chrome_driver.get('http://127.0.0.1:5221/match_student')
 
     time.sleep(2)
     element = chrome_driver.find_element(By.XPATH, "/html/body/table/tbody/tr[2]/td[4]/form/select")
@@ -66,10 +55,8 @@ def test_noSelectedCompany():
     chrome_options.add_argument('--no-sandbox')
     chrome_options.add_argument("--window-size=1920x1080")
     chrome_driver = webdriver.Chrome(service=ChromeService(executable_path=ChromeDriverManager().install()), options=chrome_options)
-    chrome_driver.get('http://127.0.0.1:5221/upload_data')
+    chrome_driver.get('http://127.0.0.1:5221/match_student')
     time.sleep(2)
-    element = chrome_driver.find_element(By.XPATH, "/html/body/nav/div/ul/li[2]/a")
-    element.click()
 
     # open dropdown list for Status column
     element = chrome_driver.find_element(By.XPATH, "/html/body/table/tbody/tr[2]/td[4]/form/select")
