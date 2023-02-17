@@ -16,7 +16,7 @@ def test_matchStudentsPageTitle():
     chrome_driver = webdriver.Chrome(service=ChromeService(executable_path=ChromeDriverManager().install()), options=chrome_options)
     chrome_driver.get('http://127.0.0.1:5221/upload_data')
 
-    chrome_driver.get('http://127.0.0.1:5221/upload_data')
+    time.sleep(3)
     element = chrome_driver.find_element(By.XPATH, "/html/body/nav/div/ul/li[2]/a")
     element.click()
 
@@ -31,9 +31,12 @@ def test_companyListColumnDropDown():
     chrome_options.add_argument("--window-size=1920x1080")
     chrome_driver = webdriver.Chrome(service=ChromeService(executable_path=ChromeDriverManager().install()), options=chrome_options)
     chrome_driver.get('http://127.0.0.1:5221/upload_data')
+
+    time.sleep(3)
     element = chrome_driver.find_element(By.XPATH, "/html/body/nav/div/ul/li[2]/a")
     element.click()
 
+    time.sleep(2)
     element = chrome_driver.find_element(By.XPATH, "/html/body/table/tbody/tr[2]/td[3]/form/select")
     element.click()
 
@@ -45,10 +48,12 @@ def test_statusColumnDropDown():
     chrome_options.add_argument("--window-size=1920x1080")
     chrome_driver = webdriver.Chrome(service=ChromeService(executable_path=ChromeDriverManager().install()), options=chrome_options)
     chrome_driver.get('http://127.0.0.1:5221/upload_data')
-    chrome_driver.get('http://127.0.0.1:5221/upload_data')
+
+    time.sleep(3)
     element = chrome_driver.find_element(By.XPATH, "/html/body/nav/div/ul/li[2]/a")
     element.click()
 
+    time.sleep(2)
     element = chrome_driver.find_element(By.XPATH, "/html/body/table/tbody/tr[2]/td[4]/form/select")
     element.click()
 
@@ -62,7 +67,7 @@ def test_noSelectedCompany():
     chrome_options.add_argument("--window-size=1920x1080")
     chrome_driver = webdriver.Chrome(service=ChromeService(executable_path=ChromeDriverManager().install()), options=chrome_options)
     chrome_driver.get('http://127.0.0.1:5221/upload_data')
-    chrome_driver.get('http://127.0.0.1:5221/upload_data')
+    time.sleep(2)
     element = chrome_driver.find_element(By.XPATH, "/html/body/nav/div/ul/li[2]/a")
     element.click()
 
