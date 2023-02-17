@@ -48,7 +48,7 @@ jobs:
           
       - name: Install Libraries
         run: |
-          pip install flake8 pytest pytest-cov pandas Flask Flask-MySQLdb Flask-SQLAlchemy PyMySQL SQLAlchemy mysql-connector-python selenium webdriver-manager openpyxl
+          pip install flake8 pytest pytest-cov pandas Flask Flask-MySQLdb Flask-SQLAlchemy PyMySQL SQLAlchemy mysql-connector-python selenium webdriver-manager openpyxl reportlab
           
       - name: Checkout Repo
         uses: actions/checkout@v3
