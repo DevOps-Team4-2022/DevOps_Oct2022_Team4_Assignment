@@ -16,10 +16,21 @@ jobs:
     environment: DEV
     steps:
 
+    - name: Cache XAMPP installer
+      uses: actions/cache@v2
+      with:
+        path: xampp-linux-x64-${XAMPP_VERSION}-0-installer.run
+        key: xampp-${XAMPP_VERSION}
+        restore-keys: xampp-
+
     - name: Download XAMPP
+      if: steps.cache-xampp.outcome != 'success'
       run: |
         wget https://sourceforge.net/projects/xampp/files/XAMPP%20Linux/${XAMPP_VERSION}/xampp-linux-x64-${XAMPP_VERSION}-0-installer.run
         chmod +x xampp-linux-x64-${XAMPP_VERSION}-0-installer.run
+
+    - name: Install XAMPP
+      run: |
         sudo ./xampp-linux-x64-${XAMPP_VERSION}-0-installer.run
         
     - name: Start XAMPP
@@ -41,7 +52,7 @@ jobs:
         
     - name: Install Libraries
       run: |
-        pip install flake8 pytest pytest-cov pandas Flask Flask-MySQLdb Flask-SQLAlchemy PyMySQL SQLAlchemy mysql-connector-python
+        pip install flake8 pytest pytest-cov pandas Flask Flask-MySQLdb Flask-SQLAlchemy PyMySQL SQLAlchemy mysql-connector-python selenium webdriver-manager openpyxl reportlab
         
     - name: Checkout Repo
       uses: actions/checkout@v3
@@ -57,10 +68,12 @@ jobs:
         exit()
         EOF      
 
-    - name: Perform Unit Testings
+    - name: Perform Unit and Integration Testings
       run: |
+        python app.py &
         pytest tests/unit-tests/test_*.py -v -cov --junitxml=dev_report.xml
-        pytest --cov=tests/unit-tests/test_*.py --cov-report=xml:dev_coverage.xml
+        pytest tests/integration-tests/*.py -v -cov --junitxml=dev_report.xml
+        pytest --cov=tests --cov-report=xml:dev_coverage.xml
         
     # monitoring tool - analyze test and coverage
     - name: Analyze Test
@@ -109,10 +122,21 @@ jobs:
     environment: UAT
     steps:
 
+    - name: Cache XAMPP installer
+      uses: actions/cache@v2
+      with:
+        path: xampp-linux-x64-${XAMPP_VERSION}-0-installer.run
+        key: xampp-${XAMPP_VERSION}
+        restore-keys: xampp-
+
     - name: Download XAMPP
+      if: steps.cache-xampp.outcome != 'success'
       run: |
         wget https://sourceforge.net/projects/xampp/files/XAMPP%20Linux/${XAMPP_VERSION}/xampp-linux-x64-${XAMPP_VERSION}-0-installer.run
         chmod +x xampp-linux-x64-${XAMPP_VERSION}-0-installer.run
+
+    - name: Install XAMPP
+      run: |
         sudo ./xampp-linux-x64-${XAMPP_VERSION}-0-installer.run
         
     - name: Start XAMPP
@@ -134,7 +158,7 @@ jobs:
         
     - name: Install Libraries
       run: |
-        pip install flake8 pytest pytest-cov pandas Flask Flask-MySQLdb Flask-SQLAlchemy PyMySQL SQLAlchemy mysql-connector-python
+        pip install flake8 pytest pytest-cov pandas Flask Flask-MySQLdb Flask-SQLAlchemy PyMySQL SQLAlchemy mysql-connector-python selenium webdriver-manager openpyxl reportlab
         
     - name: Checkout Repo
       uses: actions/checkout@v3
@@ -150,10 +174,12 @@ jobs:
         exit()
         EOF     
 
-    - name: Perform Unit Testings
+    - name: Perform Unit and Integration Testings
       run: |
+        python app.py &
         pytest tests/unit-tests/test_*.py -v -cov --junitxml=uat_report.xml
-        pytest --cov=tests/unit-tests/test_*.py --cov-report=xml:uat_coverage.xml
+        pytest tests/integration-tests/*.py -v -cov --junitxml=uat_report.xml
+        pytest --cov=tests --cov-report=xml:uat_coverage.xml
         
     # monitoring tool - analyze test and coverage
     - name: Analyze Test
@@ -202,10 +228,21 @@ jobs:
     environment: PROD
     steps:
 
+    - name: Cache XAMPP installer
+      uses: actions/cache@v2
+      with:
+        path: xampp-linux-x64-${XAMPP_VERSION}-0-installer.run
+        key: xampp-${XAMPP_VERSION}
+        restore-keys: xampp-
+
     - name: Download XAMPP
+      if: steps.cache-xampp.outcome != 'success'
       run: |
         wget https://sourceforge.net/projects/xampp/files/XAMPP%20Linux/${XAMPP_VERSION}/xampp-linux-x64-${XAMPP_VERSION}-0-installer.run
         chmod +x xampp-linux-x64-${XAMPP_VERSION}-0-installer.run
+
+    - name: Install XAMPP
+      run: |
         sudo ./xampp-linux-x64-${XAMPP_VERSION}-0-installer.run
         
     - name: Start XAMPP
@@ -227,7 +264,7 @@ jobs:
         
     - name: Install Libraries
       run: |
-        pip install flake8 pytest pytest-cov pandas Flask Flask-MySQLdb Flask-SQLAlchemy PyMySQL SQLAlchemy mysql-connector-python
+        pip install flake8 pytest pytest-cov pandas Flask Flask-MySQLdb Flask-SQLAlchemy PyMySQL SQLAlchemy mysql-connector-python selenium webdriver-manager openpyxl reportlab
         
     - name: Checkout Repo
       uses: actions/checkout@v3
@@ -243,10 +280,12 @@ jobs:
         exit()
         EOF     
 
-    - name: Perform Unit Testings
+    - name: Perform Unit and Integration Testings
       run: |
+        python app.py &
         pytest tests/unit-tests/test_*.py -v -cov --junitxml=prod_report.xml
-        pytest --cov=tests/unit-tests/test_*.py --cov-report=xml:prod_coverage.xml
+        pytest tests/integration-tests/*.py -v -cov --junitxml=prod_report.xml
+        pytest --cov=tests --cov-report=xml:prod_coverage.xml
         
     # monitoring tool - analyze test and coverage
     - name: Analyze Test
